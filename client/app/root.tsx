@@ -9,6 +9,8 @@ import {
 import type { Route } from "./+types/root";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import './app.css';
+import pokeballIcon from "./assets/pokeball-icon.png";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -38,30 +40,32 @@ export function Main() {
   const { user, logout } = useAuth();
 
   return (
-    <>
-    <header>
-        <div id="logo">
-          <img src="/img/pokeball-icon.png" alt="Pokeball icon" />
-          <h1 id="title">Card Trader</h1>
-        </div>
+    <div className="flex flex-col h-[100vh] w-[100vw]">
+      <header className="flex items-center justify-between">
+       <div id="logo" className="flex">
+          <img className="max-w-[5em] h-auto" src={pokeballIcon} alt="Pokeball icon" />
+          <h1 id="title" className="">Card Trader</h1>
+       </div>
+       <nav className="flex">
         {user ? (
-          <nav>
-            <button onClick={logout}>Log out</button>
-          </nav>
-        ) : (
-          <nav>
-            <a href="/login">Log in</a>
-            <a href="/register">Register</a>
-          </nav>
+          <>
+          <button onClick={logout} className="w-[110px] h-[50px] text-center bg-sky-200">Log out</button>
+          </>
+         ) : (
+          <>
+          <a href="/login" className="w-[110px] h-[50px] text-center bg-sky-200">Log in</a>
+          <a href="/register" className="w-[110px] h-[50px] text-center bg-sky-200">Register</a>
+          </>
         )}
+       </nav>
       </header>
       <main>
         <Outlet />
       </main>
       <footer>
-        This website is not affiliated with The Pokemon Company or Game Freak.
+       This website is not affiliated with The Pokemon Company or Game Freak.
       </footer>
-    </>
+    </div>
   );
 }
 

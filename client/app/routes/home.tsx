@@ -1,6 +1,7 @@
-import React from "react";
-import { useAuth } from "../context/AuthContext";
 import type { Route } from "./+types/home";
+import { useAuth } from "../context/AuthContext";
+import cardService from "../services/cardService";
+import CardComponent from "../components/CardComponent";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,15 +10,31 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Home( {loaderData, actionData, params, matches}: Route.ComponentProps ) {
+export async function loader() {
+  return cardService.list();
+}
+
+export async function clientLoader({
+  serverLoader,
+}: Route.ClientLoaderArgs) {
+  return serverLoader();
+}
+
+export default function Home( { loaderData, actionData, params, matches }: Route.ComponentProps ) {
   const { user } = useAuth();
+  const cards = loaderData;
 
   return <div>
-    hey guys im the home page!
     {user ? <p>Welcome, {user.username}!</p> : <p>You are not logged in.</p>}
-      <p>Loader Data (The data returned from the loader function in this route module): {JSON.stringify(loaderData)}</p>
-      <p>Action Data (The data returned from the action function in this route module): {JSON.stringify(actionData)}</p>
-      <p>Route Parameters (An object containing the route parameters (if any)): {JSON.stringify(params)}</p>
-      <p>Matched Routes (An array of all the matches in the current route tree): {JSON.stringify(matches)}</p>
+    <div>
+      <h2>This is the home page</h2>
+      {user?.role==="ROLE_ADMIN" && <button>Create a card</button>}
+      <p>Search bar</p>
+    </div>
+    <div>
+      {cards.map(card => (
+        <CardComponent key={card.id} card={card}/>
+      ))}
+    </div>
   </div>;
 }
