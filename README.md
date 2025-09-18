@@ -1,3 +1,2 @@
-Fork of my final project rewitten in React!
-
 Application for the management of digital trading cards
+This is a rewrite of my final project, from Vue to React!
