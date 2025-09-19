@@ -37,24 +37,24 @@ export default function App() {
 }
 
 export function Main() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="flex flex-col h-[100vh] w-[100vw]">
-      <header className="flex items-center justify-between">
-       <div id="logo" className="flex">
+      <header className="flex items-center justify-between border-5 border-red-400 bg-gray-200">
+       <a href="/" id="logo" className="flex items-center hover:underline">
           <img className="max-w-[5em] h-auto" src={pokeballIcon} alt="Pokeball icon" />
-          <h1 id="title" className="">Card Trader</h1>
-       </div>
+          <h1 id="title" className="text-[30px]">Card Trader</h1>
+       </a>
        <nav className="flex">
         {user ? (
           <>
-          <button onClick={logout} className="w-[110px] h-[50px] text-center bg-sky-200">Log out</button>
+          <a href="/logout" className="w-[110px] h-[50px] flex items-center justify-center border-2 border-gray-700 rounded-sm bg-sky-200 text-xl hover:underline hover:bg-sky-300">Log out</a>
           </>
          ) : (
           <>
-          <a href="/login" className="w-[110px] h-[50px] text-center bg-sky-200">Log in</a>
-          <a href="/register" className="w-[110px] h-[50px] text-center bg-sky-200">Register</a>
+          <a href="/login" className="w-[110px] h-[50px] flex items-center justify-center border-2 border-gray-700 rounded-sm bg-sky-200 text-xl hover:underline hover:bg-sky-300">Log in</a>
+          <a href="/register" className="w-[110px] h-[50px] flex items-center justify-center border-2 border-gray-700 rounded-sm bg-sky-200 text-xl hover:underline hover:bg-sky-300">Register</a>
           </>
         )}
        </nav>
@@ -62,7 +62,7 @@ export function Main() {
       <main>
         <Outlet />
       </main>
-      <footer>
+      <footer className="bg-gray-200 border-5 border-red-400">
        This website is not affiliated with The Pokemon Company or Game Freak.
       </footer>
     </div>
