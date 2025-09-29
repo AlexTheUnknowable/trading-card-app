@@ -36,8 +36,10 @@ node_modules
 
 # Add any directories, files, or patterns you don't want to be tracked by version control
 
-# the old vue client
+# stuff im messing with
 old-client/
+old-vue-client/
+client-backup-yea/
 
 # Eclipse
 .classpath
