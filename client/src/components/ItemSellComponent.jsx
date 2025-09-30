@@ -11,22 +11,22 @@ export default function ItemSellComponent({item, userId}) {
     }
 
     const submitSell = async (e) => {
-            e.preventDefault();
-            setErr("");
-            try {
-              const response = await ItemService.update(item.itemId, {
-                itemId: item.itemId,
-                userId: userId,
-                cardId: item.cardId,
-                price: newPrice
-              });
-              console.log(response);
-              window.location.reload();
-            } catch (error) {
-              console.error(error);
-              setErr("An error occured.");
-            }
-          };
+      e.preventDefault();
+      setErr("");
+      try {
+        const response = await ItemService.update(item.itemId, {
+          itemId: item.itemId,
+          userId: userId,
+          cardId: item.cardId,
+          price: newPrice
+        });
+        console.log(response);
+        window.location.reload();
+      } catch (error) {
+        console.error(error);
+        setErr("An error occured.");
+      }
+    };
 
     return (
         <>
