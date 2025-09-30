@@ -11,6 +11,7 @@ public interface ItemDao {
     Item getItemById(int itemId);
     ItemDto getItemDtoById(int itemId);
     List<ItemDto> getItemDtosByUser(int userId);
+    List<ItemDto> getItemDtosOnStore();
     Item createItem(Item item);
     Item updateItem(Item item);
     int deleteItemById(int itemId);

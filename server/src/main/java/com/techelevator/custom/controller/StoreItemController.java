@@ -17,7 +17,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/store")
+@RequestMapping("/store-old")
 @PreAuthorize("isAuthenticated()")
 public class StoreItemController {
     private final StoreItemDao siDao;

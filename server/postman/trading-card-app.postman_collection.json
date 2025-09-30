@@ -18,7 +18,8 @@
 							""
 						],
 						"type": "text/javascript",
-						"packages": {}
+						"packages": {},
+						"requests": {}
 					}
 				}
 			],
@@ -30,7 +31,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"password\"\r\n}",
+					"raw": "{\r\n    \"username\": \"user1\",\r\n    \"password\": \"password\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -322,6 +323,169 @@
 			"response": []
 		},
 		{
+			"name": "Get all items",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUrl}}/items",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/items/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"items",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create an item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": 3,\r\n    \"cardId\": 19,\r\n    \"price\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/items",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update an item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": 3,\r\n    \"cardId\": 19,\r\n    \"price\": 5.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/items/16",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"items",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/items/16",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"items",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "[OLD] Get a card item",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -453,12 +617,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/store",
+					"raw": "{{baseUrl}}/store-old",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"store"
+						"store-old"
 					]
 				}
 			},
@@ -492,12 +656,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/store?name=Char",
+					"raw": "{{baseUrl}}/store-old?name=Char",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"store"
+						"store-old"
 					],
 					"query": [
 						{
@@ -537,12 +701,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/store/8",
+					"raw": "{{baseUrl}}/store-old/8",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"store",
+						"store-old",
 						"8"
 					]
 				}
@@ -577,12 +741,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/store/mycards",
+					"raw": "{{baseUrl}}/store-old/mycards",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"store",
+						"store-old",
 						"mycards"
 					]
 				}
@@ -614,12 +778,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/store",
+					"raw": "{{baseUrl}}/store-old",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"store"
+						"store-old"
 					]
 				}
 			},
@@ -641,12 +805,12 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/store/7",
+					"raw": "{{baseUrl}}/store-old/7",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"store",
+						"store-old",
 						"7"
 					]
 				}
@@ -654,135 +818,17 @@
 			"response": []
 		},
 		{
-			"name": "Get all items",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
+			"name": "Get all items on the store",
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{baseUrl}}/items",
+					"raw": "{{baseUrl}}/store",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"items"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create an item",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"userId\": 3,\r\n    \"cardId\": 19,\r\n    \"price\": null\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/items",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"items"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Update an item",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"userId\": 3,\r\n    \"cardId\": 19,\r\n    \"price\": 5.00\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/items/16",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"items",
-						"16"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete an item",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/items/16",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"items",
-						"16"
+						"store"
 					]
 				}
 			},

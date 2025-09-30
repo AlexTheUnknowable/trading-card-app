@@ -16,7 +16,6 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@PreAuthorize("isAuthenticated()")
 public class ItemController {
     private final ItemDao itemDao;
     private final UserDao userDao;
@@ -25,7 +24,7 @@ public class ItemController {
         this.userDao = userDao;
     }
 
-    // I removed @RequestMapping("/items") from here and put the ("/items") in the GetMapping below
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/items")
     public List<ItemDto> list(@RequestParam(required = false) String name) {
         try {
@@ -46,6 +45,7 @@ public class ItemController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/items/{id}")
     public ItemDto get(@PathVariable int id) {
         try {
@@ -55,7 +55,7 @@ public class ItemController {
         }
     }
 
-    // get logged-in user's items
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/mycards")
     public List<ItemDto> getMyCards(Principal principal) {
         try {
@@ -63,6 +63,15 @@ public class ItemController {
             return itemDao.getItemDtosByUser(userId);
         } catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    @GetMapping("/store")
+    public List<ItemDto> listStore() {
+        try {
+            return itemDao.getItemDtosOnStore();
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "could not get items: " + e.getMessage());
         }
     }
 
@@ -77,6 +86,7 @@ public class ItemController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/items/{itemId}")
     public Item update(@PathVariable int itemId, @Valid @RequestBody Item item, Principal principal) {
         item.setItemId(itemId);

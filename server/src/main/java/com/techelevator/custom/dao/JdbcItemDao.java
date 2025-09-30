@@ -97,6 +97,22 @@ public class JdbcItemDao implements ItemDao {
     }
 
     @Override
+    public List<ItemDto> getItemDtosOnStore() {
+        List<ItemDto> itemDtos = new ArrayList<>();
+        String sql = "SELECT item_id, i.user_id, i.card_id, c.name, u.username, price FROM item AS i JOIN card AS c ON i.card_id = c.card_id JOIN users AS u ON i.user_id = u.user_id WHERE price > 0;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            while (results.next()) {
+                ItemDto itemDto = mapRowToItemDto(results);
+                itemDtos.add(itemDto);
+            }
+        } catch (DataAccessException e) {
+            throw new DaoException(e.getMessage());
+        }
+        return itemDtos;
+    }
+
+    @Override
     public Item createItem(Item item) {
         Item newItem = null;
         String sql = "INSERT INTO item (user_id, card_id, price) VALUES (?, ?, ?) RETURNING item_id;";

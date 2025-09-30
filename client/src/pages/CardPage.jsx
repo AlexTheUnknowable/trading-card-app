@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CardService from "../services/CardService";
-import pokeballIcon from "../assets/pokeball-icon.png";
+import CardComponent from "../components/CardComponent";
 
 export default function CardPage() {
   const { cardId } = useParams(); // gets cardId from the URL
@@ -19,9 +19,8 @@ export default function CardPage() {
   if (!card) return <p>Card not found.</p>;
 
   return (
-    <div className="flex flex-col items-center border-2">
-      <img src={card.imageUrl || pokeballIcon} alt={card.name} className="max-w-[20em] h-auto mb-4" />
-      <h1 className="text-2xl font-bold mb-4">{card.name}</h1>
+    <div className="flex flex-col items-center">
+      <CardComponent card={card} isClickable={false}/>
       <p>Rarity: {card.rarity}</p>
     </div>
   );
