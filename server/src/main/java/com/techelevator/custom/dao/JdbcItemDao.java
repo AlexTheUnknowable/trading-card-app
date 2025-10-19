@@ -37,7 +37,7 @@ public class JdbcItemDao implements ItemDao {
     @Override
     public List<ItemDto> getAllItemDtos() {
         List<ItemDto> itemDtos = new ArrayList<>();
-        String sql = "SELECT item_id, i.user_id, i.card_id, c.name, u.username, price FROM item AS i JOIN card AS c ON i.card_id = c.card_id JOIN users AS u ON i.user_id = u.user_id;";
+        String sql = "SELECT item_id, i.user_id, i.card_id, c.name, c.img, c.type, u.username, price FROM item AS i JOIN card AS c ON i.card_id = c.card_id JOIN users AS u ON i.user_id = u.user_id;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -68,7 +68,7 @@ public class JdbcItemDao implements ItemDao {
     @Override
     public ItemDto getItemDtoById(int itemId) {
         ItemDto itemDto = null;
-        String sql = "SELECT item_id, i.user_id, i.card_id, c.name, u.username, price FROM item AS i JOIN card AS c ON i.card_id = c.card_id JOIN users AS u ON i.user_id = u.user_id WHERE item_id = ?;";
+        String sql = "SELECT item_id, i.user_id, i.card_id, c.name, c.img, c.type, u.username, price FROM item AS i JOIN card AS c ON i.card_id = c.card_id JOIN users AS u ON i.user_id = u.user_id WHERE item_id = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, itemId);
             if (results.next()) {
@@ -83,7 +83,7 @@ public class JdbcItemDao implements ItemDao {
     @Override
     public List<ItemDto> getItemDtosByUser(int userId) {
         List<ItemDto> itemDtos = new ArrayList<>();
-        String sql = "SELECT item_id, i.user_id, i.card_id, c.name, u.username, price FROM item AS i JOIN card AS c ON i.card_id = c.card_id JOIN users AS u ON i.user_id = u.user_id WHERE u.user_id = ?;";
+        String sql = "SELECT item_id, i.user_id, i.card_id, c.name, c.img, c.type, u.username, price FROM item AS i JOIN card AS c ON i.card_id = c.card_id JOIN users AS u ON i.user_id = u.user_id WHERE u.user_id = ?;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
             while (results.next()) {
@@ -99,7 +99,7 @@ public class JdbcItemDao implements ItemDao {
     @Override
     public List<ItemDto> getItemDtosOnStore() {
         List<ItemDto> itemDtos = new ArrayList<>();
-        String sql = "SELECT item_id, i.user_id, i.card_id, c.name, u.username, price FROM item AS i JOIN card AS c ON i.card_id = c.card_id JOIN users AS u ON i.user_id = u.user_id WHERE price > 0;";
+        String sql = "SELECT item_id, i.user_id, i.card_id, c.name, c.img, c.type, u.username, price FROM item AS i JOIN card AS c ON i.card_id = c.card_id JOIN users AS u ON i.user_id = u.user_id WHERE price > 0;";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -169,6 +169,8 @@ public class JdbcItemDao implements ItemDao {
         itemDto.setUserId(results.getInt("user_id"));
         itemDto.setCardId(results.getInt("card_id"));
         itemDto.setName(results.getString("name"));
+        itemDto.setImgUrl(results.getString("img"));
+        itemDto.setType(results.getString("type"));
         itemDto.setUsername(results.getString("username"));
         itemDto.setPrice(results.getBigDecimal("price"));
         return itemDto;

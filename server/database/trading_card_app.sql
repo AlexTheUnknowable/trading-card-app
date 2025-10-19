@@ -6,8 +6,6 @@ BEGIN TRANSACTION;
 -- *************************************************************************************************
 DROP TABLE IF EXISTS card_type CASCADE;
 DROP TABLE IF EXISTS item CASCADE;
-DROP TABLE IF EXISTS storeitem CASCADE;
-DROP TABLE IF EXISTS carditem CASCADE;
 DROP TABLE IF EXISTS type CASCADE;
 DROP TABLE IF EXISTS card CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
@@ -28,7 +26,9 @@ CREATE TABLE users (
 CREATE TABLE card (
     card_id SERIAL,
     name varchar(50) NOT NULL UNIQUE,
-    rarity int NOT NULL,
+	img varchar(200),
+	type varchar(10) NOT NULL,
+    rarity int,
     CONSTRAINT PK_card PRIMARY KEY (card_id)
 );
 
@@ -36,23 +36,6 @@ CREATE TABLE type (
     type_id SERIAL,
     name varchar(10) NOT NULL,
     CONSTRAINT PK_type PRIMARY KEY (type_id)
-);
-
-CREATE TABLE carditem (
-    carditem_id SERIAL,
-    user_id int NOT NULL,
-    card_id int NOT NULL,
-    CONSTRAINT PK_carditem PRIMARY KEY (carditem_id),
-    CONSTRAINT FK_carditem_user FOREIGN KEY (user_id) REFERENCES users(user_id),
-    CONSTRAINT FK_carditem_card FOREIGN KEY (card_id) REFERENCES card(card_id)
-);
-
-CREATE TABLE storeitem (
-    storeitem_id SERIAL,
-    carditem_id int NOT NULL UNIQUE,
-    price numeric(10, 2) NOT NULL,
-    CONSTRAINT PK_storeitem PRIMARY KEY (storeitem_id),
-    CONSTRAINT FK_storeitem_carditem FOREIGN KEY(carditem_id) REFERENCES carditem(carditem_id)
 );
 
 CREATE TABLE item (
@@ -85,27 +68,27 @@ INSERT INTO users (username, password_hash, role) VALUES
     ('user3', '$2a$10$tmxuYYg1f5T0eXsTPlq/V.DJUKmRHyFbJ.o.liI1T35TFbjs2xiem','ROLE_USER'),
     ('admin','$2a$10$tmxuYYg1f5T0eXsTPlq/V.DJUKmRHyFbJ.o.liI1T35TFbjs2xiem','ROLE_ADMIN');
 
-INSERT INTO card (name, rarity) VALUES
-    ('Bulbasaur', 1),
-    ('Ivysaur', 2),
-    ('Venusaur', 3),
-    ('Charmander', 1),
-    ('Charmeleon', 2),
-    ('Charizard', 3),
-    ('Squirtle', 1),
-    ('Wartortle', 2),
-    ('Blastoise', 3),
-    ('Caterpie', 1),
-    ('Metapod', 2),
-    ('Butterfree', 3),
-    ('Weedle', 1),
-    ('Kakuna', 2),
-    ('Beedrill', 3),
-    ('Pidgey', 1),
-    ('Pidgeotto', 2),
-    ('Pidgeot', 3),
-    ('Rattata', 1),
-    ('Raticate', 2);
+INSERT INTO card (name, img, type, rarity) VALUES
+    ('Bulbasaur', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,1),
+    ('Ivysaur', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,2),
+    ('Venusaur', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,3),
+    ('Charmander', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,1),
+    ('Charmeleon', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,2),
+    ('Charizard', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,3),
+    ('Squirtle', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,1),
+    ('Wartortle', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,2),
+    ('Blastoise', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,3),
+    ('Caterpie', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,1),
+    ('Metapod', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,2),
+    ('Butterfree', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,3),
+    ('Weedle', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,1),
+    ('Kakuna', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,2),
+    ('Beedrill', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,3),
+    ('Pidgey', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,1),
+    ('Pidgeotto', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,2),
+    ('Pidgeot', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,3),
+    ('Rattata', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,1),
+    ('Raticate', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png', 'grass' ,2);
 
 INSERT INTO type (name) VALUES
     ('Normal'),
@@ -126,33 +109,6 @@ INSERT INTO type (name) VALUES
     ('Dragon'),
     ('Dark'),
     ('Fairy');
-
-INSERT INTO carditem (user_id, card_id) VALUES
-    (1, 1),
-    (1, 2),
-    (1, 3),
-    (1, 4),
-    (1, 5),
-    (1, 6),
-    (1, 7),
-    (1, 8),
-    (1, 9),
-    (2, 10),
-    (2, 11),
-    (2, 1),
-    (2, 12),
-    (3, 1),
-    (3, 13);
-
-INSERT INTO storeitem (carditem_id, price) VALUES
-    (1, 1.00),
-    (2, 2.00),
-    (3, 3.00),
-    (4, 1.50),
-    (5, 1.50),
-    (6, 2.00),
-    (10, 1.00),
-    (14, 1.00);
 
 INSERT INTO item (user_id, card_id, price) VALUES
 	(1, 1, 1.00),

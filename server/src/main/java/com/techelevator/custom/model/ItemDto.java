@@ -7,15 +7,19 @@ public class ItemDto {
     private int userId;
     private int cardId;
     private String name;
+    private String imgUrl;
+    private String type;
     private String username;
     private BigDecimal price;
 
     public ItemDto() {}
-    public ItemDto(int itemId, int userId, int cardId, String name, String username, BigDecimal price) {
+    public ItemDto(int itemId, int userId, int cardId, String name, String imgUrl, String type, String username, BigDecimal price) {
         this.itemId = itemId;
         this.userId = userId;
         this.cardId = cardId;
         this.name = name;
+        this.imgUrl = imgUrl;
+        this.type = type;
         this.username = username;
         this.price = price;
     }
@@ -45,6 +49,22 @@ public class ItemDto {
     public String getName() { return name; }
 
     public void setName(String name) { this.name = name; }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getUsername() { return username; }
 

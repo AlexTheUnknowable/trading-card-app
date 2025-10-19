@@ -1,21 +1,15 @@
 package com.techelevator.custom.controller;
 
 import com.techelevator.custom.dao.CardDao;
-import com.techelevator.custom.dao.CardItemDao;
-import com.techelevator.custom.dao.UserDao;
 import com.techelevator.custom.exception.DaoException;
 import com.techelevator.custom.model.Card;
-import com.techelevator.custom.model.CardItem;
-import com.techelevator.custom.model.CardItemDto;
-import com.techelevator.custom.model.User;
+import com.techelevator.custom.service.PokemonImportService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -23,13 +17,11 @@ import java.util.List;
 @RequestMapping("/cards")
 public class CardController {
     private final CardDao cardDao;
-    private final UserDao userDao;
-    private final CardItemDao cardItemDao;
+    private final PokemonImportService pokemonImportService;
 
-    public CardController(CardDao cardDao, UserDao userDao, CardItemDao cardItemDao) {
+    public CardController(CardDao cardDao, PokemonImportService pokemonImportService) {
         this.cardDao = cardDao;
-        this.userDao = userDao;
-        this.cardItemDao = cardItemDao;
+        this.pokemonImportService = pokemonImportService;
     }
 
     @GetMapping
@@ -49,19 +41,6 @@ public class CardController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "could not get card: " + e.getMessage());
         }
     }
-
-//    moved to ItemController
-//    @PreAuthorize("isAuthenticated()")
-//    @GetMapping("/mycards")
-//    public List<CardItemDto> getMyCards(Principal principal) {
-//        try {
-//            User user = userDao.getUserByUsername(principal.getName());
-//            int userId = user.getId();
-//            return cardItemDao.getCardItemsByUser(userId);
-//        } catch (DaoException e) {
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-//        }
-//    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
@@ -93,6 +72,17 @@ public class CardController {
             cardDao.deleteCardById(id);
         } catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Card not found");
+        }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/import")
+    public String importPokemon(@RequestParam(defaultValue = "151") int limit) {
+        try {
+            pokemonImportService.importPokemon(limit);
+            return "Import successful!";
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Import failed: " + e.getMessage());
         }
     }
 

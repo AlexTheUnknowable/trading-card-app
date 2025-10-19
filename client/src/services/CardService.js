@@ -12,5 +12,8 @@ export default {
     },
     delete(id) {
         return api.delete(`/cards/${id}`).then(response => response.data);
+    },
+    import() {
+        return api.post(`/cards/import?limit=1025`).then(response => response.data);
     }
 }

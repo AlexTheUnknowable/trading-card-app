@@ -247,7 +247,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"New Card\",\r\n    \"rarity\": 1\r\n}",
+					"raw": "{\r\n    \"id\": 20,\r\n    \"name\": \"Raticate\",\r\n    \"type\": \"normal\",\r\n    \"imgUrl\": \"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png\",\r\n    \"rarity\": 2\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -255,13 +255,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/cards/21",
+					"raw": "{{baseUrl}}/cards/20",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"cards",
-						"21"
+						"20"
 					]
 				}
 			},
@@ -385,6 +385,23 @@
 			"response": []
 		},
 		{
+			"name": "Get all items on the store",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/store",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"store"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create an item",
 			"request": {
 				"auth": {
@@ -480,6 +497,44 @@
 					"path": [
 						"items",
 						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Import PokeAPI",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/cards/import?limit=1025",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cards",
+						"import"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "1025"
+						}
 					]
 				}
 			},
@@ -812,23 +867,6 @@
 					"path": [
 						"store-old",
 						"7"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get all items on the store",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/store",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"store"
 					]
 				}
 			},
