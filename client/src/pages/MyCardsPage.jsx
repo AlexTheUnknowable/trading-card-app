@@ -4,10 +4,10 @@ import CardList from "../components/CardList";
 export default function MyCardsPage() {
   return (
     <CardList
-      fetchData={ItemService.getMyCards}
-      linkFunction={(item) => `/items/${item.itemId}`}
+      fetchData={ItemService.getMyUniqueCards}
+      linkFunction={(uniqueItem) => `/mycards/${uniqueItem.cardId}`}
       titleBlurb={<>
-      <p>These are your cards.</p>
+        <p>These are all cards you own.</p>
       </>}
     />
   );

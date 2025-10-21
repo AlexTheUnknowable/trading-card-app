@@ -66,6 +66,17 @@ public class ItemController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/mycards/unique")
+    public List<UniqueItemDto> getMyUniqueCards(Principal principal) {
+        try {
+            int userId = userDao.getUserByUsername(principal.getName()).getId();
+            return itemDao.getUniqueItemDtosByUser(userId);
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
     @GetMapping("/store")
     public List<ItemDto> listStore() {
         try {

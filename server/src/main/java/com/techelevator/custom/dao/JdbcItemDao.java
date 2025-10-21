@@ -3,6 +3,7 @@ package com.techelevator.custom.dao;
 import com.techelevator.custom.exception.DaoException;
 import com.techelevator.custom.model.Item;
 import com.techelevator.custom.model.ItemDto;
+import com.techelevator.custom.model.UniqueItemDto;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -97,6 +98,30 @@ public class JdbcItemDao implements ItemDao {
     }
 
     @Override
+    public List<UniqueItemDto> getUniqueItemDtosByUser(int userId) {
+        List<UniqueItemDto> uniqueItemDtos = new ArrayList<>();
+        String sql =
+                "SELECT " +
+                        "i.card_id, c.name, c.img, c.type, " +
+                        "COUNT(i.card_id) AS count_total, " +
+                        "COUNT(CASE WHEN i.price > 0 THEN 1 END) AS count_with_price, " +
+                        "COUNT(CASE WHEN i.price <= 0 OR i.price IS NULL THEN 1 END) AS count_without_price " +
+                "FROM item AS i JOIN card AS c ON i.card_id = c.card_id JOIN users AS u ON i.user_id = u.user_id " +
+                "WHERE u.user_id = ? " +
+                "GROUP BY i.card_id, c.name, c.img, c.type";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+            while (results.next()) {
+                UniqueItemDto uniqueitemDto = mapRowToUniqueItemDto(results);
+                uniqueItemDtos.add(uniqueitemDto);
+            }
+        } catch (DataAccessException e) {
+            throw new DaoException(e.getMessage());
+        }
+        return uniqueItemDtos;
+    }
+
+    @Override
     public List<ItemDto> getItemDtosOnStore() {
         List<ItemDto> itemDtos = new ArrayList<>();
         String sql = "SELECT item_id, i.user_id, i.card_id, c.name, c.img, c.type, u.username, price FROM item AS i JOIN card AS c ON i.card_id = c.card_id JOIN users AS u ON i.user_id = u.user_id WHERE price > 0;";
@@ -174,5 +199,17 @@ public class JdbcItemDao implements ItemDao {
         itemDto.setUsername(results.getString("username"));
         itemDto.setPrice(results.getBigDecimal("price"));
         return itemDto;
+    }
+
+    private UniqueItemDto mapRowToUniqueItemDto(SqlRowSet results) {
+        UniqueItemDto uniqueItemDto = new UniqueItemDto();
+        uniqueItemDto.setCardId(results.getInt("card_id"));
+        uniqueItemDto.setName(results.getString("name"));
+        uniqueItemDto.setImgUrl(results.getString("img"));
+        uniqueItemDto.setType(results.getString("type"));
+        uniqueItemDto.setCountTotal(results.getInt("count_total"));
+        uniqueItemDto.setCountWithPrice(results.getInt("count_with_price"));
+        uniqueItemDto.setCountWithoutPrice(results.getInt("count_without_price"));
+        return uniqueItemDto;
     }
 }

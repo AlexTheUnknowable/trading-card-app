@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Register from "./pages/Register";
 import MyCardsPage from "./pages/MyCardsPage";
+import MyCardsWithCardIdPage from "./pages/MyCardsWithCardIdPage";
 import StorePage from "./pages/StorePage";
 import CardPage from "./pages/CardPage";
 import ItemPage from "./pages/ItemPage";
@@ -75,6 +76,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <MyCardsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/mycards/:cardId"
+          element={
+            <ProtectedRoute>
+              <MyCardsWithCardIdPage />
             </ProtectedRoute>
           }
         />

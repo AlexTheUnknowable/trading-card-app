@@ -10,6 +10,9 @@ export default {
     getMyCards() {
         return api.get('/mycards').then(response => response.data);
     },
+    getMyUniqueCards() {
+        return api.get('/mycards/unique').then(response => response.data);
+    },
     listStore() {
         return api.get('/store').then(response => response.data);
     },

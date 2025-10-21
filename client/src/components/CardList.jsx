@@ -16,7 +16,7 @@ export default function CardList({ fetchData, linkFunction, titleBlurb }) {
   }, [fetchData]);
 
   const filteredData = data.filter(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()))
-
+  console.log(titleBlurb);
   return (
     <div className="flex flex-col items-center pb-5">
 
@@ -29,10 +29,9 @@ export default function CardList({ fetchData, linkFunction, titleBlurb }) {
         {loading ? <p>Loading cards...</p> : (
           data.length === 0 ? ( <p>No cards found.</p> ) : (
               filteredData.map((card) => (
-                <Link to={linkFunction(card)} key={card.id || card.itemId}>
+                <Link to={linkFunction(card)} key={card.id || card.itemId || card.cardId}>
                   <CardComponent card={card} isClickable={true}/>
                 </Link>
-                
               ))
             )
           )
