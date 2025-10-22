@@ -9,6 +9,11 @@ public class Item {
     private BigDecimal price;
 
     public Item() {}
+    public Item(int userId, int cardId, BigDecimal price) {
+        this.userId = userId;
+        this.cardId = cardId;
+        this.price = price;
+    }
     public Item(int itemId, int userId, int cardId, BigDecimal price) {
         this.itemId = itemId;
         this.userId = userId;

@@ -9,6 +9,7 @@ export default function CardList({ fetchData, linkFunction, titleBlurb }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("Fetching pack...");
     fetchData()
       .then((data) => setData(data))
       .catch((err) => console.error("Failed to fetch data:", err))
@@ -16,7 +17,7 @@ export default function CardList({ fetchData, linkFunction, titleBlurb }) {
   }, [fetchData]);
 
   const filteredData = data.filter(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()))
-  console.log(titleBlurb);
+  
   return (
     <div className="flex flex-col items-center pb-5">
 

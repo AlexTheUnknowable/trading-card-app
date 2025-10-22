@@ -1,5 +1,6 @@
 package com.techelevator.custom.controller;
 
+import com.techelevator.custom.dao.CardDao;
 import com.techelevator.custom.dao.ItemDao;
 import com.techelevator.custom.dao.UserDao;
 import com.techelevator.custom.exception.DaoException;
@@ -11,16 +12,23 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 @CrossOrigin
 @RestController
 public class ItemController {
     private final ItemDao itemDao;
+    private final CardDao cardDao;
     private final UserDao userDao;
-    public ItemController(ItemDao itemDao, UserDao userDao) {
+    private Map<Integer, Long> lastPullTime = new ConcurrentHashMap<>();
+    public ItemController(ItemDao itemDao, CardDao cardDao, UserDao userDao) {
         this.itemDao = itemDao;
+        this.cardDao = cardDao;
         this.userDao = userDao;
     }
 
@@ -72,6 +80,38 @@ public class ItemController {
         try {
             int userId = userDao.getUserByUsername(principal.getName()).getId();
             return itemDao.getUniqueItemDtosByUser(userId);
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/pull")
+    public List<Card> pullCards(Principal principal) {
+        // in a full implementation there would be checks i.e. how many times per day you can pull
+        Random random = new Random();
+        List<Card> cards = new ArrayList<>();
+        int cardsToPull = 5; // default # of cards to pull
+        try {
+            int userId = userDao.getUserByUsername(principal.getName()).getId();
+
+            // prevent spam/double pulls
+            long now = System.currentTimeMillis();
+            long lastTime = lastPullTime.getOrDefault(userId, 0L);
+            long cooldown = 3000; // 3 seconds cooldown
+            if (now - lastTime < cooldown) {
+                throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Multiple requests sent too quickly. Please wait before pulling again.");
+            }
+            lastPullTime.put(userId, now);
+
+            int totalCards = cardDao.getCardsCount();
+            while (cardsToPull > 0) {
+                int newCardId = random.nextInt(totalCards) + 1;
+                Item newItem = new Item(userId, newCardId, null);
+                cards.add(cardDao.getCardById(itemDao.createItem(newItem).getCardId()));
+                cardsToPull--;
+            }
+            return cards;
         } catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }

@@ -50,6 +50,21 @@ public class JdbcCardDao implements CardDao {
     }
 
     @Override
+    public int getCardsCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(card_id) AS num FROM card;";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            if (results.next()) {
+                count = results.getInt("num");
+            }
+        } catch (DataAccessException e) {
+            throw new DaoException(e.getMessage());
+        }
+        return count;
+    }
+
+    @Override
     public Card createCard(Card card) {
         Card newCard = null;
         String sql = "INSERT INTO card (name, img, type, rarity) VALUES (?, ?, ?, ?) RETURNING card_id;";

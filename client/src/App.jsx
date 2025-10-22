@@ -11,6 +11,7 @@ import MyCardsWithCardIdPage from "./pages/MyCardsWithCardIdPage";
 import StorePage from "./pages/StorePage";
 import CardPage from "./pages/CardPage";
 import ItemPage from "./pages/ItemPage";
+import PullPage from "./pages/PullPage";
 import pokeballIcon from "./assets/pokeball-icon.png";
 
 const routeMeta = {
@@ -84,6 +85,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <MyCardsWithCardIdPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/pull"
+          element={
+            <ProtectedRoute>
+              <PullPage />
             </ProtectedRoute>
           }
         />

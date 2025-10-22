@@ -13,6 +13,9 @@ export default {
     getMyUniqueCards() {
         return api.get('/mycards/unique').then(response => response.data);
     },
+    pullPack() {
+        return api.post('/pull').then(response => response.data);
+    },
     listStore() {
         return api.get('/store').then(response => response.data);
     },

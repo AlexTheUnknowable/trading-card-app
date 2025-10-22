@@ -38,8 +38,11 @@ public class PokemonImportService {
                 String name = capitalize(details.getName());
                 String type =
                         details.getTypes() != null && !details.getTypes().isEmpty()
-                            ? capitalize(details.getTypes().get(0).getType().getName())
-                            : "unknown";
+                            ? ( // if normal is 1st of 2 types, use 2nd type
+                                details.getTypes().get(0).getType().getName().equals("normal") && details.getTypes().size() > 1
+                                        ? details.getTypes().get(1).getType().getName()
+                                        : details.getTypes().get(0).getType().getName()
+                            ) : "unknown";
                 String imgUrl =
                         details.getSprites() != null
                             ? details.getSprites().getFront_default()
