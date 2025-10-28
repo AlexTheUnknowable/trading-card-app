@@ -19,7 +19,7 @@ export default function ItemInfoComponent({ item, userId }) {
          // If the item is not owned by the logged-in user
         (isItemUpForSale) ? (
           // If the item is up for sale, let the user buy it
-          <ItemBuyComponent />
+          <ItemBuyComponent item={item} userId={userId} />
         ) : (
           // If the item isn't up for sale
           <>

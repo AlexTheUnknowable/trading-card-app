@@ -14,7 +14,7 @@ import ItemPage from "./pages/ItemPage";
 import PullPage from "./pages/PullPage";
 import pokeballIcon from "./assets/pokeball-icon.png";
 
-const routeMeta = {
+const routeMeta = { // favicon stuff
     "/": { title: "Card Trader", favicon: "/favicon.ico" },
     "/login": { title: "Card Trader", favicon: "/favicon.ico" },
     "/register": { title: "Card Trader", favicon: "/favicon.ico" },
@@ -23,7 +23,7 @@ const routeMeta = {
 
 export default function App() {
   const { user, token } = useAuth();
-  if (token) {console.log(`Username: ${user.username}`);}
+  //if (token) console.log("Logged-in user: " + user.username + " with balance " + user.balance);
 
   // favicon stuff
   const location = useLocation();
@@ -49,6 +49,7 @@ export default function App() {
        <nav className="flex">
         {token ? (
           <>
+          <p className="flex items-center mr-5">Balance: {user.balance}</p>
           <Link to="/store" className="navbtn">Store</Link>
           <Link to="/mycards" className="navbtn">My cards</Link>
           <Link to="/logout" className="navbtn">Log out</Link>

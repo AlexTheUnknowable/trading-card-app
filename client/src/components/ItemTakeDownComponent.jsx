@@ -27,7 +27,7 @@ export default function ItemTakeDownComponent({item, userId}) {
             itemId: item.itemId,
             userId: userId,
             cardId: item.cardId,
-            price: null
+            price: 0.00
           });
           console.log(response);
           window.location.reload();

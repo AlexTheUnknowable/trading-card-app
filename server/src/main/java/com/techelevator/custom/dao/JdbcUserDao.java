@@ -1,10 +1,12 @@
 package com.techelevator.custom.dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.techelevator.custom.exception.DaoException;
 import com.techelevator.custom.model.Card;
+import com.techelevator.custom.model.Item;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -86,8 +88,8 @@ public class JdbcUserDao implements UserDao {
 
         User user = null;
         String insertUserSql = "INSERT INTO users " +
-                "(username, password_hash, role) " +
-                "VALUES (?, ?, ?) " +
+                "(username, password_hash, role, balance) " +
+                "VALUES (?, ?, ?, ?) " +
                 "RETURNING user_id";
 
         if (newUser.getHashedPassword() == null) {
@@ -97,7 +99,7 @@ public class JdbcUserDao implements UserDao {
             String passwordHash = new BCryptPasswordEncoder().encode(newUser.getHashedPassword());
 
             Integer userId = jdbcTemplate.queryForObject(insertUserSql, int.class,
-                    newUser.getUsername(), passwordHash, newUser.getRole());
+                    newUser.getUsername(), passwordHash, newUser.getRole(), new BigDecimal("0.00"));
             user =  getUserById(userId);
         }
         catch (CannotGetJdbcConnectionException e) {
@@ -109,12 +111,30 @@ public class JdbcUserDao implements UserDao {
         return user;
     }
 
+    @Override
+    public User updateUser(User user) {
+        User updatedUser = null;
+        String sql = "UPDATE users SET username = ?, password_hash = ?, role = ?, balance = ? WHERE user_id = ?;";
+        try {
+            int numberOfRows = jdbcTemplate.update(sql, user.getUsername(), user.getHashedPassword(), user.getRole(), user.getBalance(), user.getId());
+            if (numberOfRows == 0) {
+                throw new DaoException("0 rows affected, expected at least 1");
+            } else {
+                updatedUser = getUserById(user.getId());
+            }
+        } catch (DataAccessException e) {
+            throw new DaoException(e.getMessage());
+        }
+        return updatedUser;
+    }
+
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
         user.setId(rs.getInt("user_id"));
         user.setUsername(rs.getString("username"));
         user.setHashedPassword(rs.getString("password_hash"));
         user.setRole(rs.getString("role"));
+        user.setBalance(rs.getBigDecimal("balance"));
         return user;
     }
 

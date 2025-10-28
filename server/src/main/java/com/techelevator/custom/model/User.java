@@ -2,6 +2,7 @@ package com.techelevator.custom.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -17,18 +18,20 @@ public class User {
    @JsonIgnore
    private String hashedPassword;
    private String role;
+   private BigDecimal balance;
 
    public User() { }
 
-   public User(int id, String username, String hashedPassword, String role) {
+   public User(int id, String username, String hashedPassword, String role, BigDecimal balance) {
       this.id = id;
       this.username = username;
       this.hashedPassword = hashedPassword;
       this.role = role;
+      this.balance = balance;
    }
 
-   public User(String username, String hashedPassword, String role) {
-      this(0, username, hashedPassword, role);
+   public User(String username, String hashedPassword, String role, BigDecimal balance) {
+      this(0, username, hashedPassword, role, balance);
    }
 
    public int getId() {
@@ -63,6 +66,14 @@ public class User {
       this.role = role != null && !role.startsWith("ROLE_")
               ? "ROLE_" + role.toUpperCase()
               : role;
+   }
+
+   public BigDecimal getBalance() {
+      return balance;
+   }
+
+   public void setBalance(BigDecimal balance) {
+      this.balance = balance;
    }
 
    @Override

@@ -14,7 +14,7 @@ export default function MyCardsWithCardId() {
       }
       linkFunction={(item) => `/items/${item.itemId}`}
       titleBlurb={<>
-        <p>These are all the cards of this Pokemon thatyou own.</p>
+        <p>These are all the cards of this Pokemon that you own.</p>
       </>}
     />
   );

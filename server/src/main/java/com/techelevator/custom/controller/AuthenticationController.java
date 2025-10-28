@@ -16,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
+
 /**
  * AuthenticationController is a class used for handling requests to authenticate Users.
  *
@@ -70,7 +72,7 @@ public class AuthenticationController {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already exists.");
             }
 
-            User user = userDao.createUser(new User(newUser.getUsername(), newUser.getPassword(), newUser.getRole()));
+            User user = userDao.createUser(new User(newUser.getUsername(), newUser.getPassword(), newUser.getRole(), new BigDecimal("0.00")));
             return user;
         }
         catch (DaoException e) {

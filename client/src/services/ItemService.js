@@ -25,6 +25,9 @@ export default {
     update(id, item) {
         return api.put(`/items/${id}`, item).then(response => response.data);
     },
+    purchase(id, item) {
+        return api.put(`/items/purchase/${id}`, item).then(response => response.data);
+    },
     delete(id) {
         return api.delete(`/items/${id}`).then(() => {});
     }

@@ -42,7 +42,7 @@ export default function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
+    <AuthContext.Provider value={{ token, user, login, logout, setUser, updateUserBalance: (newBalance) => setUser((prev) => ({ ...prev, balance: newBalance }))}}>
       {children}
     </AuthContext.Provider>
   );

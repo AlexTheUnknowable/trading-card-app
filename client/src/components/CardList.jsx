@@ -9,7 +9,7 @@ export default function CardList({ fetchData, linkFunction, titleBlurb }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("Fetching pack...");
+    //console.log("Fetching data...");
     fetchData()
       .then((data) => setData(data))
       .catch((err) => console.error("Failed to fetch data:", err))
