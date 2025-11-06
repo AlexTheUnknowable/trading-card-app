@@ -75,6 +75,22 @@ Users can collect, trade, and sell Pokémon-style cards — all powered by data 
 
 ---
 
+## 📸 Screenshots
+#### Home page:
+![alt text](assets/1_home.PNG)
+#### Search bar functionality:
+![alt text](assets/6_search.PNG)
+#### user2's "My Cards" page:
+![alt text](assets/2_mycards.PNG)
+#### user2 clicks on a card they own and sells it:
+![alt text](assets/3_sell.PNG)
+#### Store page:
+![alt text](assets/4_store.PNG)
+#### user1 clicks on a card on the store and buys it, updating both user1 and user2's balance:
+![alt text](assets/5_buy.PNG)
+
+---
+
 ## 🧭 Future Improvements
 
 - JWT-based authentication  
